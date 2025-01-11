@@ -1,0 +1,172 @@
+Cards:
+Arrows
+The Log
+Goblin Gang
+Hog Rider
+Ice Spirit
+Fireball
+Cannon
+Tornado
+Goblinstein
+Zap
+Goblin Barrel
+Dart Goblin
+Princess
+Rage
+Guards
+Electro Wizard
+Skeletons
+Inferno Dragon
+Bats
+Knight
+Mini P.E.K.K.A
+Balloon
+Inferno Tower
+Miner
+Skeleton Army
+Barbarian Barrel
+Lightning
+Cannon Cart
+Firecracker
+Poison
+Bandit
+Valkyrie
+Tesla
+Witch
+Skeleton Barrel
+Ice Wizard
+Ram Rider
+Prince
+Lumberjack
+Royal Ghost
+Rocket
+P.E.K.K.A
+Wall Breakers
+Fisherman
+Mega Knight
+Earthquake
+Musketeer
+Baby Dragon
+Dark Prince
+Electro Spirit
+Mighty Miner
+Minions
+Spear Goblins
+Bomber
+Royal Hogs
+Magic Archer
+Rune Giant
+Wizard
+Elite Barbarians
+Ice Golem
+Executioner
+Royal Delivery
+Night Witch
+Archer Queen
+Skeleton Dragons
+Freeze
+Sparky
+Goblins
+Mega Minion
+Elixir Golem
+Little Prince
+Lava Hound
+Skeleton King
+Graveyard
+Mirror
+Flying Machine
+Phoenix
+Bomb Tower
+Bowler
+Tombstone
+Giant Skeleton
+Minion Horde
+Fire Spirit
+Giant Snowball
+Golem
+Mother Witch
+Electro Giant
+Hunter
+Giant
+Golden Knight
+Battle Ram
+Electro Dragon
+Elixir Collector
+X-Bow
+Goblin Cage
+Battle Healer
+Monk
+Archers
+Royal Recruits
+Goblin Drill
+Goblin Giant
+Heal Spirit
+Goblin Curse
+Zappies
+Rascals
+Furnace
+Clone
+Void
+Goblin Demolisher
+Suspicious Bush
+Goblin Hut
+Royal Giant
+Three Musketeers
+Goblin Machine
+Barbarians
+Mortar
+Barbarian Hut
+Super Witch
+Super Lava Hound
+Super Magic Archer
+Santa Hog Rider
+Super Ice Golem
+Super Archers
+Royal Recruits
+Terry
+Super Mini P.E.K.K.A
+Raging Prince
+Wizard Trio
+Super Knight
+Royal Recruits
+Barbarian Launcher
+Party Hut
+Rocket Silo
+Clone
+Party Rocket
+Warmth
+Lightning
+Evolutions:
+Firecracker
+Mega Knight
+Valkyrie
+P.E.K.K.A
+Skeletons
+Knight
+Dart Goblin
+Goblin Barrel
+Bats
+Royal Recruits
+Zap
+Electro Dragon
+Wizard
+Mortar
+Ice Spirit
+Goblin Giant
+Bomber
+Battle Ram
+Goblin Cage
+Tesla
+Royal Giant
+Wall Breakers
+Archers
+Barbarians
+Musketeer
+Goblin Drill
+Cannon
+Giant Snowball
+Towers:
+Tower Princess
+Royal Chef
+Dagger Duchess
+Cannoneer

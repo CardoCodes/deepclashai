@@ -2,10 +2,38 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+def parse_cards_file(filename):
+    categories = [[], [], []]  # [cards, evolutions, towers]
+    current_category = None
+    
+    with open(filename, 'r') as file:
+        for line in file:
+            line = line.strip()
+            
+            # Skip empty lines
+            if not line:
+                continue
+                
+            # Determine category
+            if line == "Cards:":
+                current_category = 0
+                continue
+            elif line == "Evolutions:":
+                current_category = 1
+                continue
+            elif line == "Towers:":
+                current_category = 2
+                continue
+            
+            # Add item to appropriate category if we're in a category
+            if current_category is not None:
+                categories[current_category].append(line)
+    
+    return categories
 
 def scrape_cards():
     # Base URL
-    url = "https://statsroyale.com/cards"
+    url = "https://statsroyale.com/top/cards"
     
     # Headers to mimic a browser request
     headers = {
@@ -14,39 +42,21 @@ def scrape_cards():
     
     # Get the page
     response = requests.get(url, headers=headers)
+    response.raise_for_status()
+
     soup = BeautifulSoup(response.content, 'html.parser')
-    
-    # Find all card elements
-    cards = soup.find_all('div', class_='cards__card')
-    
-    card_data = []
-    for card in cards:
-        try:
-            name = card.find('div', class_='cards__card__name').text.strip()
-            rarity = card.find('div', class_='cards__card__rarity').text.strip()
-            elixir = card.find('div', class_='cards__card__elixir').text.strip()
-            type_ = card.find('div', class_='cards__card__type').text.strip() if card.find('div', class_='cards__card__type') else 'N/A'
-            
-            card_info = {
-                'name': name,
-                'rarity': rarity,
-                'elixir': elixir,
-                'type': type_
-            }
-            card_data.append(card_info)
-            
-        except AttributeError as e:
-            print(f"Error processing card: {e}")
-    
-    # Convert to DataFrame
-    df = pd.DataFrame(card_data)
-    
-    # Save to CSV
-    df.to_csv('clash_royale_cards.csv', index=False)
-    return df
+
 
 if __name__ == "__main__":
-    cards_df = scrape_cards()
-    print(f"Scraped {len(cards_df)} cards successfully!")
+    # Example usage
+result = parse_cards_file('cards/cards.txt')
+
+# Print results (optional)
+print("Cards:", result[0])
+print("\nEvolutions:", result[1])
+print("\nTowers:", result[2])
+    
+
+    print("[+] Done")
 
 
