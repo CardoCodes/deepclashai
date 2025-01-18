@@ -1,7 +1,12 @@
 import requests
-from bs4 import BeautifulSoup
 import pandas as pd
 import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 
 def parse_cards_file(filename):
     categories = [[], [], []]  # [cards, evolutions, towers]
@@ -53,7 +58,10 @@ def scrape_cards(cards_list):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
     
+    # Initialize all cards data
     all_cards_data = []
+
+    driver = webdriver.Chrome()
     
     # Iterate through all categories
     for category_index, category in enumerate(cards_list):
@@ -61,47 +69,17 @@ def scrape_cards(cards_list):
             try:
                 # Construct the full URL
                 url = base_url.format(card_name)
+                driver.get(url)
                 
-                # Get the page
-                response = requests.get(url, headers=headers)
-                response.raise_for_status()
-                
-                # Parse the HTML
-                soup = BeautifulSoup(response.content, 'html.parser')
-                
-                # Extract card information
-                card_data = {
-                    "name": card_name.replace("+", " ").replace("/evolved", ""),
-                    "category": ["Regular", "Evolution", "Tower"][category_index],
-                    "rarity": soup.find("div", class_="card__rarity").text.strip() if soup.find("div", class_="card__rarity") else "Unknown",
-                    "elixir": soup.find("div", class_="card__elixir").text.strip() if soup.find("div", class_="card__elixir") else "Unknown",
-                    "stats": {}
-                }
-                
-                # Get card statistics
-                stats_container = soup.find("div", class_="card__stats")
-                if stats_container:
-                    stats = stats_container.find_all("div", class_="card__stat")
-                    for stat in stats:
-                        stat_name = stat.find("div", class_="card__stat-name").text.strip()
-                        stat_value = stat.find("div", class_="card__stat-value").text.strip()
-                        card_data["stats"][stat_name] = stat_value
-                
-                all_cards_data.append(card_data)
-                
-                # Add a small delay to avoid overwhelming the server
-                time.sleep(1)
-                
-                print(f"[+] Successfully scraped {card_name}")
-                
+                wait = WebDriverWait(driver, 10)
+                stats_rows = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "stats-row")))
+
+
+               
             except Exception as e:
                 print(f"[-] Error scraping {card_name}: {str(e)}")
-    
-    # Convert to DataFrame and save to CSV (optional)
-    df = pd.DataFrame(all_cards_data)
-    df.to_csv('card_data.csv', index=False)
-    
-    return all_cards_data
+                return None
+        
 
 
 
