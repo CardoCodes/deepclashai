@@ -108,12 +108,10 @@ def scrape_cards(cards_list):
     return all_cards_data
 
 if __name__ == "__main__":
-    # Example usage
     cards_list = parse_cards_file('tools/cards.txt')
     cards_list = format_card_names(cards_list)
     cards_data = scrape_cards(cards_list)
-
-    # Save to JSON file
+    
     if cards_data:
         with open('cards_data.json', 'w') as f:
             json.dump(cards_data, f, indent=4)
