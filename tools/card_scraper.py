@@ -123,11 +123,10 @@ if __name__ == "__main__":
     cards_list = format_card_names(cards_list)
     cards_data = scrape_cards(cards_list)
     
-    # Save cards data to a JSON file
-    with open('cards_data.json', 'w') as f:
-        json.dump(cards_data, f, indent=4)
-    print("\n[+] Cards data saved to cards_data.json")
-
+    if cards_data:
+        with open('cards_data.json', 'w') as f:
+            json.dump(cards_data, f, indent=4)
+        print("\n[+] Cards data saved to cards_data.json")
 
     print("[+] Done")
 
