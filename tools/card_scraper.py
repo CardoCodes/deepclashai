@@ -77,10 +77,21 @@ def scrape_cards(cards_list):
                 driver.get(url)
                 wait = WebDriverWait(driver, 10)
 
-                # Pull all divs that have the class "stats-row"
-                stats_rows = driver.find_elements(By.CLASS_NAME, "stats-row")
+                # Get card type, rarity, and arena
+                type_row = driver.find_elements(By.CLASS_NAME, "badge")
+                for row in type_row:
+                    #first row will always be card type
+                    if card.type is None:
+                        card.type = row.text
+                    #second row will always be card rarity
+                    elif card.rarity is None:
+                        card.rarity = row.text
+                    #third row will always be card arena
+                    elif card.arena is None:
+                        card.arena = row.text
 
-                # Parse the stats for the card
+                # Get card stats
+                stats_rows = driver.find_elements(By.CLASS_NAME, "stats-row")
                 for row in stats_rows:
                     if row.find_element(By.XPATH, "..").get_attribute("class") == "content-box-main":
                         stat_text = row.text.lower()
@@ -112,10 +123,11 @@ if __name__ == "__main__":
     cards_list = format_card_names(cards_list)
     cards_data = scrape_cards(cards_list)
     
-    if cards_data:
-        with open('cards_data.json', 'w') as f:
-            json.dump(cards_data, f, indent=4)
-        print("\nCards data saved to cards_data.json")
+    # Save cards data to a JSON file
+    with open('cards_data.json', 'w') as f:
+        json.dump(cards_data, f, indent=4)
+    print("\n[+] Cards data saved to cards_data.json")
+
 
     print("[+] Done")
 

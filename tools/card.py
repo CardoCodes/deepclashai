@@ -23,6 +23,7 @@ class Card:
         self._name = name
         self._type = None
         self._rarity = None
+        self._arena = None
         self._stats = []
         self._level_stats = [[]]  # Index 0 is empty, levels start at 1
     
@@ -72,6 +73,20 @@ class Card:
             value: The rarity level of the card.
         """
         self._rarity = value
+    
+    @property
+    def arena(self) -> str:
+        """Gets the card arena."""
+        return self._arena
+    
+    @arena.setter
+    def arena(self, value: str) -> None:
+        """Sets the card arena.
+        
+        Args:
+            value: The arena level of the card.
+        """
+        self._arena = value
     
     @property
     def stats(self) -> List[Dict[str, Union[str, float]]]:
