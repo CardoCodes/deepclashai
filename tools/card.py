@@ -24,6 +24,7 @@ class Card:
         self._type = None
         self._rarity = None
         self._arena = None
+        self._evolution = None
         self._stats = []
         self._level_stats = [[]]  # Index 0 is empty, levels start at 1
     
@@ -87,6 +88,20 @@ class Card:
             value: The arena level of the card.
         """
         self._arena = value
+    
+    @property
+    def evolution(self) -> str:
+        """Gets the card evolution."""
+        return self._evolution
+    
+    @evolution.setter
+    def evolution(self, value: str) -> None:
+        """Sets the card evolution.
+        
+        Args:
+            value: The evolution level of the card.
+        """
+        self._evolution = value
     
     @property
     def stats(self) -> List[Dict[str, Union[str, float]]]:
@@ -155,6 +170,8 @@ class Card:
             'name': self._name,
             'type': self._type,
             'rarity': self._rarity,
+            'arena': self._arena,
+            'evolution': self._evolution,
             'stats': self._stats,
             'level_stats': self._level_stats[1:]  # Exclude empty level 0
         }

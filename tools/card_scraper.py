@@ -90,6 +90,13 @@ def scrape_cards(cards_list):
                     elif card.arena is None:
                         card.arena = row.text
 
+                # Get card evolution
+                evolution_elements = driver.find_elements(By.CSS_SELECTOR, "li.me-2 a.tab-link.group")
+                for element in evolution_elements:
+                    span = element.find_element(By.TAG_NAME, "span")
+                    if span.text.lower() == "evolution" and card.evolution is None:
+                        card.evolution = "Evolution"
+
                 # Get card stats
                 stats_rows = driver.find_elements(By.CLASS_NAME, "stats-row")
                 for row in stats_rows:
