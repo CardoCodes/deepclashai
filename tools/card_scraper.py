@@ -97,6 +97,10 @@ def scrape_cards(cards_list):
                     if span.text.lower() == "evolution" and card.evolution is None:
                         card.evolution = "Evolution"
 
+                # Initialize a default unit if none exists
+                if not card.units:
+                    card.add_unit("name", 1)  # Add placeholder unit
+                
                 # Get card stats
                 stats_rows = driver.find_elements(By.CLASS_NAME, "stats-row")
                 for row in stats_rows:
@@ -112,7 +116,7 @@ def scrape_cards(cards_list):
                                 stat_value = int(''.join(filter(str.isdigit, stat_value)))
                             except ValueError:
                                 pass
-                            card.add_stat(stat_name, stat_value)
+                            card.add_unit_stat(0, stat_name, stat_value)  # Add stat to first unit
                     else:
                         break
                 

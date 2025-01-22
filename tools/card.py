@@ -4,13 +4,13 @@ class Card:
     """Represents a card with its attributes and statistics.
     
     This class manages card properties including name, type, rarity, and various
-    statistics that can change based on card level.
+    units with their statistics that can change based on card level.
     
     Attributes:
         name: The name of the card.
         type: The type/category of the card.
         rarity: The rarity level of the card.
-        stats: List of base statistics for the card.
+        units: List of units, where each unit has a name, count, and stats.
         level_stats: Nested list of statistics per card level.
     """
 
@@ -25,7 +25,7 @@ class Card:
         self._rarity = None
         self._arena = None
         self._evolution = None
-        self._stats = []
+        self._units = []  # Replace _stats with _units
         self._level_stats = [[]]  # Index 0 is empty, levels start at 1
     
     @property
@@ -104,18 +104,38 @@ class Card:
         self._evolution = value
     
     @property
-    def stats(self) -> List[Dict[str, Union[str, float]]]:
-        """Gets the card's base statistics."""
-        return self._stats
+    def units(self) -> List[Dict[str, Union[str, int, List]]]:
+        """Gets the card's units."""
+        return self._units
     
-    def add_stat(self, name: str, value: Union[int, float, str]) -> None:
-        """Adds a new statistic to the card.
+    def add_unit(self, name: str, count: int) -> None:
+        """Adds a new unit to the card.
         
         Args:
+            name: The name of the unit.
+            count: The number of this unit.
+        """
+        self._units.append({
+            'name': name,
+            'count': count,
+            'stats': []
+        })
+    
+    def add_unit_stat(self, unit_index: int, name: str, value: Union[int, float, str]) -> None:
+        """Adds a new statistic to a specific unit.
+        
+        Args:
+            unit_index: The index of the unit to add the stat to.
             name: The name of the statistic.
             value: The value of the statistic.
+            
+        Raises:
+            IndexError: If unit_index is out of range.
         """
-        self._stats.append({
+        if unit_index < 0 or unit_index >= len(self._units):
+            raise IndexError(f"Unit index {unit_index} is out of range")
+            
+        self._units[unit_index]['stats'].append({
             'name': name,
             'value': value
         })
@@ -172,6 +192,6 @@ class Card:
             'rarity': self._rarity,
             'arena': self._arena,
             'evolution': self._evolution,
-            'stats': self._stats,
+            'units': self._units,
             'level_stats': self._level_stats[1:]  # Exclude empty level 0
         }
