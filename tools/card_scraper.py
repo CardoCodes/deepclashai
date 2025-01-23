@@ -51,6 +51,7 @@ def format_card_names(cards_list):
     
     return cards_list
 
+#TODO: scrape cards differently depending on the category e.g. spell, tower, etc.
 def scrape_cards(cards_list):
     # Base URL
     base_url = "https://statsroyale.com/card/{}"
@@ -96,30 +97,53 @@ def scrape_cards(cards_list):
                     span = element.find_element(By.TAG_NAME, "span")
                     if span.text.lower() == "evolution" and card.evolution is None:
                         card.evolution = "Evolution"
+                
+                # Get unit names from content boxes that have statistics
+                unit_boxes = driver.find_elements(By.CSS_SELECTOR, "div.content-box.mb-2.flex.flex-col")
+                unit_boxes = [box for box in unit_boxes if box.find_elements(By.CSS_SELECTOR, "div.content-box-subtitle.mx-2") and 
+                            "statistics" in box.find_element(By.CSS_SELECTOR, "div.content-box-subtitle.mx-2").text.lower()]
+                
+                for box in unit_boxes:
+                    try:
+                        
+                        title_div = box.find_element(By.CSS_SELECTOR, "div.content-box-title.content-box-p")
 
-                # Initialize a default unit if none exists
-                if not card.units:
-                    card.add_unit("name", 1)  # Add placeholder unit
-                
-                # Get card stats
-                stats_rows = driver.find_elements(By.CLASS_NAME, "stats-row")
-                for row in stats_rows:
-                    if row.find_element(By.XPATH, "..").get_attribute("class") == "content-box-main":
-                        stat_text = row.text.lower()
-                        # Split the text by newline
-                        parts = stat_text.split('\n')
-                        if len(parts) == 2:
-                            stat_name = parts[0].strip()
-                            stat_value = parts[1].strip()
-                            # Try to convert to int if it's a number, otherwise keep as string
-                            try:
-                                stat_value = int(''.join(filter(str.isdigit, stat_value)))
-                            except ValueError:
-                                pass
-                            card.add_unit_stat(0, stat_name, stat_value)  # Add stat to first unit
-                    else:
-                        break
-                
+                        for title in title_div:
+
+                            unit_name = title.find_element(By.TAG_NAME, "span").text
+                            
+                            unit_count_element = box.find_element(By.CLASS_NAME, "text-muted")
+                            if unit_count_element:
+                                count_text = unit_count_element.text
+                                # Extract the number after 'x' (e.g. from "x 3" get "3")
+                                unit_count = int(count_text.split('x')[1].strip())
+                            else:
+                                unit_count = 1
+
+                            unit_stats = []
+                            stats_row = box.find_element(By.CLASS_NAME, "stats-row")
+                            for row in stats_row:
+                                stat_text = row.text.lower()
+                                parts = stat_text.split('\n')
+                                if len(parts) == 2:
+                                    stat_name = parts[0].strip()
+                                    stat_value = parts[1].strip()
+                                    # Try to convert to int if it's a number
+                                    try:
+                                        stat_value = int(''.join(filter(str.isdigit, stat_value)))
+                                    except ValueError:
+                                        pass
+                                    unit_stats.append({
+                                        'name': stat_name,
+                                        'value': stat_value
+                                    })
+
+                            card.add_unit(unit_name, unit_count, unit_stats)
+
+                    except Exception as e:
+                        print(f"[-] Error getting unit name for {card_name}: {str(e)}")
+                        continue
+
                 all_cards_data.append(card.to_dict())
                
             except Exception as e:

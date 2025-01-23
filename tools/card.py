@@ -108,37 +108,28 @@ class Card:
         """Gets the card's units."""
         return self._units
     
-    def add_unit(self, name: str, count: int) -> None:
-        """Adds a new unit to the card.
+    def add_unit(self, name: str, count: int, stats: Optional[List[Dict[str, Union[int, float, str]]]] = None) -> None:
+        """Adds a new unit to the card with optional stats.
         
         Args:
             name: The name of the unit.
             count: The number of this unit.
+            stats: Optional list of stats for the unit, where each stat is a dict with 'name' and 'value' keys.
         """
-        self._units.append({
+        unit = {
             'name': name,
             'count': count,
             'stats': []
-        })
-    
-    def add_unit_stat(self, unit_index: int, name: str, value: Union[int, float, str]) -> None:
-        """Adds a new statistic to a specific unit.
+        }
         
-        Args:
-            unit_index: The index of the unit to add the stat to.
-            name: The name of the statistic.
-            value: The value of the statistic.
-            
-        Raises:
-            IndexError: If unit_index is out of range.
-        """
-        if unit_index < 0 or unit_index >= len(self._units):
-            raise IndexError(f"Unit index {unit_index} is out of range")
-            
-        self._units[unit_index]['stats'].append({
-            'name': name,
-            'value': value
-        })
+        if stats:
+            for stat in stats:
+                unit['stats'].append({
+                    'name': stat['name'],
+                    'value': stat['value']
+                })
+                
+        self._units.append(unit)
     
     def set_level_stats(self, level: int, stats: Dict[str, Union[int, float, str]]) -> None:
         """Sets statistics for a specific card level.
