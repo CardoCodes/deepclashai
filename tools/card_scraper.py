@@ -52,6 +52,8 @@ def format_card_names(cards_list):
     return cards_list
 
 #TODO: scrape cards differently depending on the category e.g. spell, tower, etc.
+#TODO: refactor for easier readability
+
 def scrape_cards(cards_list):
     # Base URL
     base_url = "https://statsroyale.com/card/{}"
@@ -108,6 +110,7 @@ def scrape_cards(cards_list):
                         
                         title_div = box.find_element(By.CSS_SELECTOR, "div.content-box-title.content-box-p")
 
+                        #TODO: fix error cannot itterate over title_div
                         for title in title_div:
 
                             unit_name = title.find_element(By.TAG_NAME, "span").text
@@ -118,6 +121,7 @@ def scrape_cards(cards_list):
                                 # Extract the number after 'x' (e.g. from "x 3" get "3")
                                 unit_count = int(count_text.split('x')[1].strip())
                             else:
+                                # default to 1 if no count is found
                                 unit_count = 1
 
                             unit_stats = []

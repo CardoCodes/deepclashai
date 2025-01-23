@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Optional
 
 class Card:
     """Represents a card with its attributes and statistics.
