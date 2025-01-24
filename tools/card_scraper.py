@@ -78,7 +78,7 @@ def scrape_cards(cards_list):
                 # Construct the full URL and get the page
                 url = base_url.format(card_name)
                 driver.get(url)
-                wait = WebDriverWait(driver, 10)
+                wait = WebDriverWait(driver, 1)
 
                 # Get card type, rarity, and arena
                 type_row = driver.find_elements(By.CLASS_NAME, "badge")
@@ -108,14 +108,15 @@ def scrape_cards(cards_list):
                 for box in unit_boxes:
                     try:
                         
-                        title_div = box.find_element(By.CSS_SELECTOR, "div.content-box-title.content-box-p")
+                        title_div = box.find_elements(By.CSS_SELECTOR, "div.content-box-title.content-box-p")
 
                         #TODO: fix error cannot itterate over title_div
                         for title in title_div:
 
                             unit_name = title.find_element(By.TAG_NAME, "span").text
                             
-                            unit_count_element = box.find_element(By.CLASS_NAME, "text-muted")
+                            #TODO: fix error with finding the "text-muted" span, need to reed more documentation on selenium
+                            unit_count_element = title.find_element(By.CSS_SELECTOR, "span.text-muted")
                             if unit_count_element:
                                 count_text = unit_count_element.text
                                 # Extract the number after 'x' (e.g. from "x 3" get "3")
